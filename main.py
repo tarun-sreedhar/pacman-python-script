@@ -6,25 +6,59 @@ import webbrowser
 
 import easygui
 from PIL import Image
-import requests
-from io import BytesIO
 
-image1 = "/Users/Tarun/Desktop/pacman_graphics/image1.png"
-image2 = "/Users/Tarun/Desktop/pacman_graphics/image2.png"
-image3 = "/Users/Tarun/Desktop/pacman_graphics/image3.png"
-image4 = "/Users/Tarun/Desktop/pacman_graphics/image4.png"
+import tkinter as tk
+
+class Fullscreen_Example:
+    def __init__(self):
+        self.window = tk.Tk()
+        self.window.attributes('-fullscreen', True)
+        self.fullScreenState = False
+        self.window.bind("<F11>", self.toggleFullScreen)
+        self.window.bind("<Escape>", self.quitFullScreen)
+
+        self.window.mainloop()
+
+    def toggleFullScreen(self, event):
+        self.fullScreenState = not self.fullScreenState
+        self.window.attributes("-fullscreen", self.fullScreenState)
+
+    def quitFullScreen(self, event):
+        self.fullScreenState = False
+        self.window.attributes("-fullscreen", self.fullScreenState)
+
+#if __name__ == '__main__':
+    #app = Fullscreen_Example()
+image1 = "../pacman_ui/image1.png"
+image2 = "../pacman_ui/image2.png"
+image3 = "../pacman_ui/image3.png"
+image4 = "../pacman_ui/image4.png"
 
 def initial_instructions():
-    if easygui.ccbox(first_message(), "Pacman"):
-        if easygui.ccbox(second_message(), "Pacman"):
-            if easygui.ccbox(third_message(), "Pacman", image=image1):
-                if easygui.ccbox(fourth_message(), "Pacman"):
-                    if easygui.ccbox(fifth_message(), "Pacman", image=image2):
-                        if easygui.ccbox(sixth_message_one(), "Pacman", image=image3):
-                            if easygui.ccbox(sixth_message(), "Pacman"):
-                                if easygui.ccbox(seventh_message(), "Pacman", image=image4):
-                                    if easygui.ccbox(eighth_message(), "Pacman"):
-                                        pass
+    easygui.ccbox(first_message(), "Pacman")
+    easygui.ccbox(second_message(), "Pacman")
+    easygui.ccbox(third_message(), "Pacman", image=image1)
+    easygui.ccbox(fourth_message(), "Pacman")
+    easygui.ccbox(fifth_message(), "Pacman", image=image2)
+    easygui.ccbox(sixth_message_one(), "Pacman", image=image3)
+    easygui.ccbox(sixth_message(), "Pacman")
+    easygui.ccbox(seventh_message(), "Pacman", image=image4)
+    easygui.ccbox(eighth_message(), "Pacman")
+
+def game_questions():
+    easygui.ccbox("Thank you for playing the game! This is a pilot study and we value your feedback very much! First, some questions about the game itself", "Pacman")
+    if easygui.choicebox("Did the sound work well?", "Game Questions", ["Yes", "No"]) == "No":
+        easygui.enterbox("Please explain what happened with the game sound", "Game Questions")
+    if easygui.choicebox("Were there any glitches?", "Game Questions", ["Yes", "No"]):
+        easygui.enterbox("Please explain what glitches arose", "Game Questions")
+    easygui.choicebox("On a scale of 1 to 5, how engaging was the game?", "Game Questions", ["1", "2", "3", "4", "5"])
+    if easygui.choicebox("Did you have a specific strategy during the game?", "Game Questions", ["Yes", "No"]) == "Yes":
+        easygui.enterbox("Please explain your strategy", "Game Questions")
+    easygui.multchoicebox("What did you experience when the ghost was close to catching you? You may select multiple answers.", "Game Questions", ["Stress", "Hope", "Boredom", "Excitement", "Anxiety", "Disinterest"])
+    if easygui.choicebox("Did you feel stressed or nervous at all while playing this game? If so, when?", "Game Questions", ["Yes, when I got close to the ghost", "Yes when the ghost was chasing me", "Yes (other)", "No"]) == "Yes (other)":
+        easygui.enterbox("When did you feel stressed or nervous?", "Game Questions")
+    easygui.enterbox("Is there anything you would change to make the game better or run more smoothly?")
+    easygui.choicebox("Have you ever played a Pacman game before?", "Game Questions", ["Yes", "No"])
 
 
 def comp_questions():
@@ -52,7 +86,7 @@ def comp_questions():
             questions -= 1
             print(num_correct)
         if num_correct > 2:
-            easygui.ccbox("Great job! Now you will play four practice trials to help you understand the game. Try to get as high a score as you can, without being eaten by the ghost.", "Pacman")
+            easygui.ccbox("Great job! Now you will play four practice trials to help you understand the game. Try to get as high a score as you can, without being eaten by the ghost. Press continue and the practice trials will open in Chrome.", "Pacman")
             break
         else:
             easygui.ccbox("It looks like some of those questions weren't answered quite correctly. Let's try again!")
@@ -60,7 +94,7 @@ def comp_questions():
             questions = 5
 
 def ready_for_game():
-    easygui.ccbox("Good job! If you are ready to begin the game, select continue.", "Pacman");
+    easygui.ccbox("When you finish the practice trials, please click continue on this window and the real trials will automatically open!", "Pacman")
 
 def first_message():
     return "Welcome to Pacman!\n \nYou are going to play a simplified version of the game Pac-Man. This is not the classic arcade game so please read the instructions carefully and make sure you understand the game."
@@ -107,6 +141,7 @@ if __name__ == '__main__':
     webbrowser.open("file://" + "/Users/Tarun/pacman-task/main_practice.html")
     ready_for_game()
     webbrowser.open("file://" + "/Users/Tarun/pacman-task/index.html")
+    game_questions()
 
 
 
