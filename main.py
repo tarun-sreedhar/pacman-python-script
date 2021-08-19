@@ -2,6 +2,7 @@
 
 # Press ⌃R to execute it or replace it with your code.
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+import sys
 import webbrowser
 
 import easygui
@@ -29,10 +30,11 @@ class Fullscreen_Example:
 
 #if __name__ == '__main__':
     #app = Fullscreen_Example()
-image1 = "../pacman_ui/image1.png"
-image2 = "../pacman_ui/image2.png"
-image3 = "../pacman_ui/image3.png"
-image4 = "../pacman_ui/image4.png"
+image1 = "image1.png"
+image2 = "image2.png"
+image3 = "image3.png"
+image4 = "image4.png"
+return_dict = {}
 
 def initial_instructions():
     easygui.ccbox(first_message(), "Pacman")
@@ -46,20 +48,37 @@ def initial_instructions():
     easygui.ccbox(eighth_message(), "Pacman")
 
 def game_questions():
+    global return_dict
     easygui.ccbox("Thank you for playing the game! This is a pilot study and we value your feedback very much! First, some questions about the game itself", "Pacman")
     if easygui.choicebox("Did the sound work well?", "Game Questions", ["Yes", "No"]) == "No":
+        return_dict["Did the sound work well?"] = "No"
         easygui.enterbox("Please explain what happened with the game sound", "Game Questions")
-    if easygui.choicebox("Were there any glitches?", "Game Questions", ["Yes", "No"]):
+    else:
+        return_dict["Did the sound work well?"] = "Yes"
+    if easygui.choicebox("Were there any glitches?", "Game Questions", ["Yes", "No"]) == "Yes":
+        return_dict["Were there any glitches"] = "Yes"
         easygui.enterbox("Please explain what glitches arose", "Game Questions")
-    easygui.choicebox("On a scale of 1 to 5, how engaging was the game?", "Game Questions", ["1", "2", "3", "4", "5"])
+    else:
+        return_dict["Were there any glitches"] = "No"
+    return_dict["On a scale of 1 to 5, how engaging was the game?"] = easygui.choicebox("On a scale of 1 to 5, how engaging was the game?", "Game Questions", ["1", "2", "3", "4", "5"])
     if easygui.choicebox("Did you have a specific strategy during the game?", "Game Questions", ["Yes", "No"]) == "Yes":
         easygui.enterbox("Please explain your strategy", "Game Questions")
-    easygui.multchoicebox("What did you experience when the ghost was close to catching you? You may select multiple answers.", "Game Questions", ["Stress", "Hope", "Boredom", "Excitement", "Anxiety", "Disinterest"])
-    if easygui.choicebox("Did you feel stressed or nervous at all while playing this game? If so, when?", "Game Questions", ["Yes, when I got close to the ghost", "Yes when the ghost was chasing me", "Yes (other)", "No"]) == "Yes (other)":
-        easygui.enterbox("When did you feel stressed or nervous?", "Game Questions")
-    easygui.enterbox("Is there anything you would change to make the game better or run more smoothly?")
-    easygui.choicebox("Have you ever played a Pacman game before?", "Game Questions", ["Yes", "No"])
+        return_dict["Did you have a specific strategy during the game?"] = "Yes"
+    else:
+        return_dict["Did you have a specific strategy during the game?"] = "No"
+    return_dict["What did you experience when the ghost was close to catching you?"] = easygui.multchoicebox("What did you experience when the ghost was close to catching you? You may select multiple answers.", "Game Questions", ["Stress", "Hope", "Boredom", "Excitement", "Anxiety", "Disinterest"])
+    return_dict["Did you feel stressed or nervous at all while playing this game?"] = easygui.choicebox("Did you feel stressed or nervous at all while playing this game? If so, when?", "Game Questions", ["Yes, when I got close to the ghost", "Yes when the ghost was chasing me", "Yes (other)", "No"])
+    return_dict["Is there anything you would change to make the game better or run more smoothly?"] = easygui.enterbox("Is there anything you would change to make the game better or run more smoothly?")
+    return_dict["Have you ever played a Pacman game before?"] = easygui.choicebox("Have you ever played a Pacman game before?", "Game Questions", ["Yes", "No"])
 
+def research_questions():
+    global return_dict
+    return_dict["The following items ask about anxiety and fear. For each item, select the number for the answer that best describes your experience over the past week."] = easygui.ccbox("The following items ask about anxiety and fear. For each item, select the number for the answer that best describes your experience over the past week.", "Research Questions")
+    return_dict["In the past week, how often have you felt anxious?"] = easygui.choicebox("In the past week, how often have you felt anxious?", "Research Questions", ["0 = No anxiety in the past week.", "1 = Infrequent anxiety. Felt anxious a few times", "2 = Occasional anxiety. Felt anxious as much of the time as not. It was hard to relax", "3 = Frequent anxiety. Felt anxious most of the time. It was very difficult to relax.", "4 = Constant anxiety. Felt anxious all of the time and never really relaxed."])
+    return_dict["In the past week, when you have felt anxious, how intense or severe was your anxiety?"] = easygui.choicebox("In the past week, when you have felt anxious, how intense or severe was your anxiety?", "Research Questions", ["0 = Little or None: Anxiety was absent or barely noticeable", "1 = Mild: Anxiety was at a low level. It was possible to relax when I tried. Physical symptoms were only slightly uncomfortable.", "2 = Moderate: Anxiety was distressing at times. It was hard to relax or concentrate, but I could do it if I tried. Physical symptoms were uncomfortable.", "3 = Severe: Anxiety was intense much of the time. It was very difficult to relax or focus on anything else. Physical symptoms were extremely uncomfortable.", "4 = Extreme: Anxiety was overwhelming. It was impossible to relax at all. Physical symptoms were unbearable"])
+    return_dict["In the past week, how often did you avoid situations, places, objects, or activities because of anxiety or fear?"] = easygui.choicebox("In the past week, how often did you avoid situations, places, objects, or activities because of anxiety or fear?", "Research Questions", ["0 = None: I do not avoid places, situations, activities, or things because of fear", "1 = Infrequent: I avoid something once in a while, but will usually face the situation or confront the object. My lifestyle is not affected.", "2 = Occasional: I have some fear of certain situations, places, or objects, but it is still manageable. My lifestyle has only changed in minor ways. I always or almost always avoid the things I fear when I’m alone, but can handle them if someone comes with me.", "3 = Frequent: I have considerable fear and really try to avoid the things that frighten me. I have made signifi cant changes in my lifestyle to avoid the object, situation, activity, or place.", "4 = All the Time: Avoiding objects, situations, activities, or places has taken over my life. My lifestyle has been extensively affected and I no longer do things that I used to enjoy"])
+    return_dict["In the past week, how much did your anxiety interfere with your ability to do the things you needed to do at work, at school, or at home?"] = easygui.choicebox("In the past week, how much did your anxiety interfere with your ability to do the things you needed to do at work, at school, or at home?", "Research Questions", ["0 = None: No interference at work/home/school from anxiety", "1 = Mild: My anxiety has caused some interference at work/home/school. Things are more difficult, but everything that needs to be done is still getting done.", "2 = Moderate: My anxiety definitely interferes with tasks. Most things are still getting done, but few things are being done as well as in the past.", "3 = Severe: My anxiety has really changed my ability to get things done. Some tasks are still being done, but many things are not. My performance has definitely suffered.", "4 = Extreme: My anxiety has become incapacitating. I am unable to complete tasks and have had to leave school, have quit or been fired from my job, or have been unable to complete tasks at home and have faced consequences like bill collectors, eviction, etc."])
+    return_dict["In the past week, how much has anxiety interfered with your social life and relationships?"] = easygui.choicebox("In the past week, how much has anxiety interfered with your social life and relationships?", "Research Questions", ["0 = None: My anxiety doesn’t affect my relationships.", "1 = Mild: My anxiety slightly interferes with my relationships. Some of my friendships and other relationships have suffered, but, overall, my social life is still fulfilling.", "2 = Moderate: I have experienced some interference with my social life, but I still have a few close relationships. I don’t spend as much time with others as in the past, but I still socialize sometimes.", "3 = Severe: My friendships and other relationships have suffered a lot because of anxiety. I do not enjoy social activities. I socialize very little.", "4 = Extreme: My anxiety has completely disrupted my social activities. All of my relationships have suffered or ended. My family life is extremely strained."])
 
 def comp_questions():
     num_correct = 0
@@ -142,6 +161,11 @@ if __name__ == '__main__':
     ready_for_game()
     webbrowser.open("file://" + "/Users/Tarun/pacman-task/index.html")
     game_questions()
+    research_questions()
+    sys.stdout = open("results.txt", "w")
+    print(return_dict)
+    sys.stdout.close()
+
 
 
 
