@@ -7,9 +7,6 @@ import webbrowser
 import os
 
 import easygui
-from PIL import Image
-
-import tkinter as tk
 
 class Fullscreen_Example:
     def __init__(self):
@@ -31,7 +28,7 @@ class Fullscreen_Example:
 
 #if __name__ == '__main__':
     #app = Fullscreen_Example()
-image1 = "Slide1.jpeg"
+image1 = "image_1copy.jpeg"
 image2 = "Slide2.jpeg"
 image3 = "Slide3.jpeg"
 image4 = "Slide4.jpeg"
