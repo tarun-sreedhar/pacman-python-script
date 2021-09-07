@@ -4,6 +4,7 @@
 # Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 import sys
 import webbrowser
+import os
 
 import easygui
 from PIL import Image
@@ -30,22 +31,33 @@ class Fullscreen_Example:
 
 #if __name__ == '__main__':
     #app = Fullscreen_Example()
-image1 = "image1.png"
-image2 = "image2.png"
-image3 = "image3.png"
-image4 = "image4.png"
+image1 = "Slide1.jpeg"
+image2 = "Slide2.jpeg"
+image3 = "Slide3.jpeg"
+image4 = "Slide4.jpeg"
+image5 = "Slide5.jpeg"
+image6 = "Slide6.jpeg"
+image7 = "Slide7.jpeg"
+image8 = "Slide8.jpeg"
+image9 = "Slide9.jpeg"
+image10 = "Slide10.jpeg"
 return_dict = {}
+user_id = "0"
+
 
 def initial_instructions():
-    easygui.ccbox(first_message(), "Pacman")
-    easygui.ccbox(second_message(), "Pacman")
-    easygui.ccbox(third_message(), "Pacman", image=image1)
-    easygui.ccbox(fourth_message(), "Pacman")
-    easygui.ccbox(fifth_message(), "Pacman", image=image2)
-    easygui.ccbox(sixth_message_one(), "Pacman", image=image3)
-    easygui.ccbox(sixth_message(), "Pacman")
-    easygui.ccbox(seventh_message(), "Pacman", image=image4)
-    easygui.ccbox(eighth_message(), "Pacman")
+    global user_id
+    user_id = easygui.enterbox("What is your subject id?", "Pacman")
+    easygui.ccbox("", "Pacman", image=image1)
+    easygui.ccbox("", "Pacman", image=image2)
+    easygui.ccbox("", "Pacman", image=image3)
+    easygui.ccbox("", "Pacman", image=image4)
+    easygui.ccbox("", "Pacman", image=image5)
+    easygui.ccbox("", "Pacman", image=image6)
+    easygui.ccbox("", "Pacman", image=image7)
+    easygui.ccbox("", "Pacman", image=image8)
+    easygui.ccbox("", "Pacman", image=image9)
+    easygui.ccbox("", "Pacman", image=image10)
 
 def game_questions():
     global return_dict
@@ -123,15 +135,6 @@ def second_message():
     return "At beginning of each round, Pac-Man will be placed somewhere along a horizontal corridor. Somewhere else along this corridor, a single ghost will appear. You must avoid the ghost, or you will lose one of your three lives as well as all the points you earned on that trial. When you lose all three lives, you lose the game and your score is reset to 0. You can see how many lives you have remaining by looking at the bottom center of the screen." \
            "\n\nAdditionally, there will be 5 dots of different sizes placed between you and the ghost. Your job is to use the left and right arrow keys to collect as many dots as you can. The more dots you collect, the higher your score will be. Larger dots are worth 20 points and smaller dots are worth 10 points. You can see your total score across trials by looking at the bottom left of your screen."
 
-def first_image():
-    return Image.open("/Users/Tarun/Desktop/pacman_graphics/image1.png")
-
-def second_image():
-    return Image.open("/Users/Tarun/Desktop/pacman_graphics/image2.png")
-
-def third_image():
-    return Image.open("/Users/Tarun/Desktop/pacman_graphics/image3.png")
-
 def third_message():
     return "Here is an example of how a typical trial would begin.\n"
 
@@ -156,13 +159,13 @@ def eighth_message():
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     initial_instructions()
-    comp_questions()
-    webbrowser.open("file://" + "/Users/Tarun/pacman-task/main_practice.html")
+    #comp_questions()
+    webbrowser.open("file://" + os.path.realpath("main_practice.html"))
     ready_for_game()
-    webbrowser.open("file://" + "/Users/Tarun/pacman-task/index.html")
+    webbrowser.open("file://" + os.path.realpath("index.html"))
     game_questions()
     research_questions()
-    sys.stdout = open("results.txt", "w")
+    sys.stdout = open(user_id + ".txt", "w")
     print(return_dict)
     sys.stdout.close()
 
